@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Build output of scripts/verify-scoring.mjs (CommonJS, not source).
+    ".cache/**",
+    // Vendored design reference only; not part of the app (also excluded in tsconfig).
+    "orkest-ui/**",
   ]),
 ]);
 

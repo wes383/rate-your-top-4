@@ -1,26 +1,580 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────────────
+   Theme variant — Orkest UI switches themes via a class on <html>,
+   so the default `prefers-color-scheme` variant is replaced here.
+   ───────────────────────────────────────────────────────────── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─────────────────────────────────────────────────────────────
+   Design tokens — ported from Orkest UI (app/globals.css).
+   Single source of truth; mapped to utilities in the @theme block.
+   ───────────────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surfaces */
+  --background: #fcfbfa;
+  --surface: #ffffff;
+  --sidebar: #fafaf9;
+  --muted: #f3f4f6;
+
+  /* Foreground */
+  --foreground: #25242a;
+  --foreground-muted: #6d6770;
+  --foreground-subtle: #9f99a3;
+  --foreground-faint: #b0a9b2;
+  --foreground-on-accent: #ffffff;
+
+  /* Borders */
+  --border: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.22);
+  --ring: rgba(0, 0, 0, 0.22);
+
+  /* Hover */
+  --hover-bg: rgba(0, 0, 0, 0.035);
+  --hover-bg-strong: rgba(0, 0, 0, 0.06);
+  /* Opaque hover fills for controls layered over imagery or a scrim, where a
+     translucent fill would let the backdrop bleed through the control. */
+  --hover-surface: #f4f2ef;
+  --hover-surface-danger: #fbeaea;
+  --overlay: rgba(0, 0, 0, 0.18);
+  --overlay-strong: rgba(20, 18, 24, 0.62);
+
+  /* Accent */
+  --accent: #25242a;
+  --accent-hover: #000000;
+  --accent-fg: #ffffff;
+  --accent-muted: rgba(37, 36, 42, 0.08);
+
+  /* Semantic */
+  --blue: #2563eb;
+  --blue-fg: #1d4ed8;
+  --blue-soft: #eff6ff;
+  --blue-border: #bfdbfe;
+
+  --orange: #ea580c;
+  --orange-fg: #c2410c;
+  --orange-soft: #fff7ed;
+  --orange-border: #fed7aa;
+
+  --red: #dc2626;
+  --red-fg: #b91c1c;
+  --red-soft: #fef2f2;
+  --red-border: #fecaca;
+
+  --green: #16a34a;
+  --green-fg: #15803d;
+  --green-soft: #f0fdf4;
+  --green-border: #bbf7d0;
+
+  --yellow: #ca8a04;
+  --yellow-fg: #a16207;
+  --yellow-soft: #fefce8;
+  --yellow-border: #fde68a;
+
+  /* Project palette (19 colors, warm-shifted & desaturated) */
+  --color-red-tone: #c8585a;
+  --color-orange-tone: #cc7344;
+  --color-amber-tone: #c89248;
+  --color-yellow-tone: #bba348;
+  --color-lime-tone: #7d9a48;
+  --color-green-tone: #5d9a5d;
+  --color-emerald-tone: #549770;
+  --color-teal-tone: #4d9088;
+  --color-cyan-tone: #4d8fa8;
+  --color-sky-tone: #5e93b8;
+  --color-blue-tone: #5d83bb;
+  --color-indigo-tone: #7373b3;
+  --color-violet-tone: #8974b3;
+  --color-purple-tone: #9c77ab;
+  --color-fuchsia-tone: #a96fa0;
+  --color-pink-tone: #b8758a;
+  --color-rose-tone: #b56874;
+  --color-gray-tone: #847a7e;
+  --color-slate-tone: #787e85;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+
+  /* Elevation */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(28, 24, 35, 0.06);
+  --shadow-pop: 0 20px 45px rgba(28, 24, 35, 0.1);
+  --shadow-dialog: 0 28px 80px rgba(28, 24, 35, 0.14);
+  --shadow-fab: 0 18px 45px rgba(37, 36, 42, 0.22);
+
+  /* Typography */
+  --font-sans: var(--font-inter, "Inter"), var(--font-noto-sans-sc, "Noto Sans SC"),
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-manrope, "Manrope"), var(--font-noto-sans-sc, "Noto Sans SC"),
+    ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono"),
+    var(--font-noto-sans-sc, "Noto Sans SC"), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 28px;
+  --text-4xl: 32px;
+  --text-5xl: 40px;
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+
+  /* Motion */
+  --duration-fast: 0.1s;
+  --duration-base: 0.15s;
+  --duration-slow: 0.2s;
+  --duration-slower: 0.3s;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  color-scheme: light;
 }
 
+html.dark {
+  --background: #101010;
+  --surface: #181818;
+  --sidebar: #181818;
+  --muted: rgba(255, 255, 255, 0.06);
+
+  --foreground: #f5f5f5;
+  --foreground-muted: #a3a3a3;
+  --foreground-subtle: #737373;
+  --foreground-faint: #6a6570;
+  --foreground-on-accent: #111111;
+
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.25);
+  --ring: rgba(255, 255, 255, 0.3);
+
+  --hover-bg: rgba(255, 255, 255, 0.06);
+  --hover-bg-strong: rgba(255, 255, 255, 0.1);
+  --hover-surface: #242424;
+  --hover-surface-danger: #3b2021;
+  --overlay: rgba(0, 0, 0, 0.55);
+  --overlay-strong: rgba(0, 0, 0, 0.72);
+
+  --accent: #f5f5f5;
+  --accent-hover: #ffffff;
+  --accent-fg: #111111;
+  --accent-muted: rgba(245, 245, 245, 0.1);
+
+  --blue: #93c5fd;
+  --blue-fg: #60a5fa;
+  --blue-soft: rgba(59, 130, 246, 0.12);
+  --blue-border: rgba(96, 165, 250, 0.45);
+
+  --orange: #fdba74;
+  --orange-fg: #fb923c;
+  --orange-soft: rgba(249, 115, 22, 0.12);
+  --orange-border: rgba(251, 146, 60, 0.45);
+
+  --red: #fca5a5;
+  --red-fg: #f87171;
+  --red-soft: rgba(239, 68, 68, 0.12);
+  --red-border: rgba(248, 113, 113, 0.45);
+
+  --green: #86efac;
+  --green-fg: #4ade80;
+  --green-soft: rgba(34, 197, 94, 0.16);
+  --green-border: rgba(74, 222, 128, 0.45);
+
+  --yellow: #fde047;
+  --yellow-fg: #facc15;
+  --yellow-soft: rgba(234, 179, 8, 0.14);
+  --yellow-border: rgba(250, 204, 21, 0.45);
+
+  /* Palette re-tuned for dark surfaces (lighter, lower chroma) */
+  --color-red-tone: #d98082;
+  --color-orange-tone: #dd9569;
+  --color-amber-tone: #d6a866;
+  --color-yellow-tone: #cbb968;
+  --color-lime-tone: #9ab168;
+  --color-green-tone: #7cb07c;
+  --color-emerald-tone: #72ad8b;
+  --color-teal-tone: #6ba79f;
+  --color-cyan-tone: #6ba5bb;
+  --color-sky-tone: #7ba9c9;
+  --color-blue-tone: #7b9bcc;
+  --color-indigo-tone: #8d8dc4;
+  --color-violet-tone: #9f8ec4;
+  --color-purple-tone: #b191be;
+  --color-rose-tone: #c78c9d;
+  --color-gray-tone: #9d9498;
+  --color-slate-tone: #929aa0;
+  --color-pink-tone: #c98da0;
+  --color-fuchsia-tone: #bb89b3;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-pop: 0 20px 45px rgba(0, 0, 0, 0.45);
+  --shadow-dialog: 0 28px 80px rgba(0, 0, 0, 0.55);
+  --shadow-fab: 0 18px 45px rgba(0, 0, 0, 0.55);
+
+  color-scheme: dark;
+}
+
+html.high-contrast {
+  --border: #000000;
+  --border-strong: #000000;
+  --ring: #000000;
+  --accent: #000000;
+  --accent-hover: #000000;
+}
+
+html.dark.high-contrast {
+  --border: #ffffff;
+  --border-strong: #ffffff;
+  --ring: #ffffff;
+  --accent: #ffffff;
+  --accent-hover: #ffffff;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Token → utility mapping (Tailwind v4 `@theme`)
+   `inline` keeps the var() reference so themes resolve at runtime.
+   ───────────────────────────────────────────────────────────── */
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-sidebar: var(--sidebar);
+  --color-muted: var(--muted);
+
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-foreground-subtle: var(--foreground-subtle);
+  --color-foreground-faint: var(--foreground-faint);
+  --color-foreground-on-accent: var(--foreground-on-accent);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-ring: var(--ring);
+  --color-hover-bg: var(--hover-bg);
+  --color-hover-bg-strong: var(--hover-bg-strong);
+  --color-hover-surface: var(--hover-surface);
+  --color-hover-surface-danger: var(--hover-surface-danger);
+  --color-overlay: var(--overlay);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-muted: var(--accent-muted);
+
+  --color-blue: var(--blue);
+  --color-blue-fg: var(--blue-fg);
+  --color-blue-soft: var(--blue-soft);
+  --color-blue-border: var(--blue-border);
+
+  --color-orange: var(--orange);
+  --color-orange-fg: var(--orange-fg);
+  --color-orange-soft: var(--orange-soft);
+  --color-orange-border: var(--orange-border);
+
+  --color-red: var(--red);
+  --color-red-fg: var(--red-fg);
+  --color-red-soft: var(--red-soft);
+  --color-red-border: var(--red-border);
+
+  --color-green: var(--green);
+  --color-green-fg: var(--green-fg);
+  --color-green-soft: var(--green-soft);
+  --color-green-border: var(--green-border);
+
+  --color-yellow: var(--yellow);
+  --color-yellow-fg: var(--yellow-fg);
+  --color-yellow-soft: var(--yellow-soft);
+  --color-yellow-border: var(--yellow-border);
+
+  --color-tone-red: var(--color-red-tone);
+  --color-tone-orange: var(--color-orange-tone);
+  --color-tone-amber: var(--color-amber-tone);
+  --color-tone-yellow: var(--color-yellow-tone);
+  --color-tone-lime: var(--color-lime-tone);
+  --color-tone-green: var(--color-green-tone);
+  --color-tone-emerald: var(--color-emerald-tone);
+  --color-tone-teal: var(--color-teal-tone);
+  --color-tone-cyan: var(--color-cyan-tone);
+  --color-tone-sky: var(--color-sky-tone);
+  --color-tone-blue: var(--color-blue-tone);
+  --color-tone-indigo: var(--color-indigo-tone);
+  --color-tone-violet: var(--color-violet-tone);
+  --color-tone-purple: var(--color-purple-tone);
+  --color-tone-fuchsia: var(--color-fuchsia-tone);
+  --color-tone-pink: var(--color-pink-tone);
+  --color-tone-rose: var(--color-rose-tone);
+  --color-tone-gray: var(--color-gray-tone);
+  --color-tone-slate: var(--color-slate-tone);
+
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+
+  --text-xs: var(--text-xs);
+  --text-xs--line-height: 1.5;
+  --text-sm: var(--text-sm);
+  --text-sm--line-height: 1.5;
+  --text-base: var(--text-base);
+  --text-base--line-height: 1.5;
+  --text-lg: var(--text-lg);
+  --text-lg--line-height: 1.3;
+  --text-xl: var(--text-xl);
+  --text-xl--line-height: 1.3;
+  --text-2xl: var(--text-2xl);
+  --text-2xl--line-height: 1.1;
+  --text-3xl: var(--text-3xl);
+  --text-3xl--line-height: 1.1;
+  --text-4xl: var(--text-4xl);
+  --text-4xl--line-height: 1.1;
+  --text-5xl: var(--text-5xl);
+  --text-5xl--line-height: 1.1;
+
+  --tracking-tight: var(--tracking-tight);
+  --tracking-normal: var(--tracking-normal);
+  --tracking-wide: var(--tracking-wide);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-full: var(--radius-full);
+
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-pop: var(--shadow-pop);
+  --shadow-dialog: var(--shadow-dialog);
+  --shadow-fab: var(--shadow-fab);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --animate-fade-in: fade-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-fade-slide-in: fade-slide-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-scale-in: scale-in 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes fade-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes orkest-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orkest-shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Base
+   ───────────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    background: var(--background);
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:
+      background-color var(--duration-slow) var(--ease-out),
+      color var(--duration-slow) var(--ease-out);
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Tailwind v4 dropped the v3 preflight rule `button { cursor: pointer }`, so
+     every button rendered as a plain arrow. Restore the pointer for controls
+     that are actually clickable, and signal the disabled ones. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--hover-bg-strong);
+    border-radius: var(--radius-full);
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--foreground-faint);
+    background-clip: content-box;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--hover-bg-strong) transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Custom utilities (Tailwind v4 has no namespace for these)
+   ───────────────────────────────────────────────────────────── */
+@utility duration-fast {
+  transition-duration: var(--duration-fast);
+}
+@utility duration-base {
+  transition-duration: var(--duration-base);
+}
+@utility duration-slow {
+  transition-duration: var(--duration-slow);
+}
+@utility duration-slower {
+  transition-duration: var(--duration-slower);
+}
+
+@utility z-dropdown {
+  z-index: 40;
+}
+@utility z-tooltip {
+  z-index: 40;
+}
+@utility z-popover {
+  z-index: 50;
+}
+@utility z-modal {
+  z-index: 60;
+}
+@utility z-toast {
+  z-index: 70;
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+@utility text-pretty {
+  text-wrap: pretty;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility animate-spin-slow {
+  animation: orkest-spin 1.2s linear infinite;
+}
+
+@utility animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--hover-bg-strong) 0%,
+    var(--hover-bg) 50%,
+    var(--hover-bg-strong) 100%
+  );
+  background-size: 1000px 100%;
+  animation: orkest-shimmer 2s infinite linear;
+}
+
+/* Neutral placeholder surface for entries without a poster image */
+@utility poster-fallback {
+  background-image: linear-gradient(
+    140deg,
+    var(--hover-bg-strong) 0%,
+    var(--hover-bg) 45%,
+    var(--hover-bg-strong) 100%
+  );
 }
