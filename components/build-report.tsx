@@ -82,7 +82,7 @@ export function BuildReport({
               {build.schools.map((school, index) => (
                 <Badge
                   key={school}
-                  variant={index === 0 ? "default" : "outline"}
+                  variant={index === 0 ? "default" : "secondary"}
                   size="sm"
                   title={
                     index === 0 ? t("report.schoolsPrimary") : undefined
@@ -430,7 +430,11 @@ export function BuildReport({
           icon={<CircleSlash className="h-3.5 w-3.5" aria-hidden="true" />}
           title={t("diag.yearSpan")}
           value={t("diag.years", { n: diagnostics.yearSpan })}
-          chips={[]}
+          chips={
+            diagnostics.yearMin !== null && diagnostics.yearMax !== null
+              ? [`${diagnostics.yearMin} - ${diagnostics.yearMax}`]
+              : []
+          }
         />
       </div>
     </section>

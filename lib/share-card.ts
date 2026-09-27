@@ -214,13 +214,25 @@ function paintHeader(brush: Brush, schools: BuildResult["build"]["schools"]) {
   ctx.textBaseline = "alphabetic";
   ctx.fillText(brush.t("share.heading"), PAD, 126);
 
-  // Detected schools, top-right where the date used to sit.
+  // Detected schools, top-right where the date used to sit. First two only,
+  // always shown in full — the type size shrinks until the line fits between
+  // the heading and the right edge.
   if (schools.length > 0) {
-    const names = schools.map((school) => brush.t(`school.${school}`)).join(" · ");
-    applyFont(brush, 700, 26, "display");
+    const names = schools
+      .slice(0, 2)
+      .map((school) => brush.t(`school.${school}`))
+      .join(" · ");
+    const headingWidth = ctx.measureText(brush.t("share.heading")).width;
+    const available = RIGHT - (PAD + headingWidth + 32);
+    let size = 26;
+    applyFont(brush, 700, size, "display");
+    while (size > 15 && ctx.measureText(names).width > available) {
+      size -= 1;
+      applyFont(brush, 700, size, "display");
+    }
     ctx.fillStyle = theme["--foreground-subtle"];
     ctx.textAlign = "right";
-    ctx.fillText(ellipsize(ctx, names, 320), RIGHT, 122);
+    ctx.fillText(names, RIGHT, 122);
   }
 
   ctx.strokeStyle = theme["--border"] ?? "rgba(0,0,0,0.08)";

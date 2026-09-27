@@ -51,14 +51,17 @@ export const SCHOOL_RULES = {
     hotColdMixer: { minMainstreamMix: 60, minRecognitionSpreadTerm: 45 },
     awardsSeason: { minAwardsPrestige: 70, minOscarFilms: 2 },
     cinephileStandard: {
-      minFilmCriticism: 65,
       minPublicConsensus: 60,
-      minHistoricalDepth: 55,
-      maxIdentity: 45,
+      minMeanLegacy: 60,
     },
-    artHouse: { minFilmCriticism: 60, maxPublicConsensus: 55, minGap: 15 },
+    artHouse: { minMeanLegacy: 40, maxMeanHeat: 58, minFilmsWithData: 3 },
     cinephile: { minFilmCriticism: 60, minDirectorRepeat: 2, maxPublicConsensus: 65 },
-    crowdPleaser: { minPublicConsensus: 70, maxFilmCriticism: 55, maxMainstreamMix: 35 },
+    crowdPleaser: {
+      minPublicConsensus: 70,
+      maxFilmCriticism: 55,
+      maxMainstreamMix: 35,
+      maxLegacyScore: 10,
+    },
     comfortViewer: { minComfortFilms: 3, minPublicConsensus: 50 },
     niche: { maxImdbVotesPts: 24, maxTmdbVotesPts: 22, minFilmsWithData: 3 },
   },
@@ -91,6 +94,14 @@ export interface SchoolInput {
   oscarFilms: number;
   /** Footprint vote-count points (0-40 IMDb / 0-30 TMDB), null when unknown. */
   filmVotePts: { imdb: number | null; tmdb: number | null }[];
+  /** Highest per-film legacy score (TSPDT / Sight & Sound / Cahiers) in the
+   *  build, 0-100. The crowd-pleaser gate: mass favourites carry no
+   *  critics'-list standing, so any listed film rules the school out. */
+  maxLegacy: number;
+  /** Mean per-film legacy score across the build, 0-100. The canon signal:
+   *  the correct-answers school reads this directly instead of the IMDb-heavy
+   *  filmCriticism attribute, which cannot see critics'-list standing. */
+  meanLegacy: number;
 }
 
 export function detectSchools(input: SchoolInput): SchoolKey[] {
@@ -112,6 +123,19 @@ export function detectSchools(input: SchoolInput): SchoolKey[] {
         (pts.imdb === null || pts.imdb <= r.niche.maxImdbVotesPts) &&
         (pts.tmdb === null || pts.tmdb <= r.niche.maxTmdbVotesPts)
     );
+
+  // Art-house reads the public side from HEAT (vote counts), not from ratings:
+  // IMDb raters are self-selected, so slow-cinema favourites still average 7+;
+  // what marks them out is that few people rated them at all. The critics
+  // side is meanLegacy — softer than the correct-answers bar, because
+  // art-house canon lives in the middle of the lists, not at the top.
+  const meanHeat =
+    nicheVotes.length >= SCHOOL_RULES.rules.artHouse.minFilmsWithData
+      ? nicheVotes.reduce(
+          (acc, pts) => acc + (pts.imdb ?? 0) + (pts.tmdb ?? 0),
+          0
+        ) / nicheVotes.length
+      : null;
 
   const matches: Record<SchoolKey, boolean> = {
     franchise: input.sameCollection,
@@ -141,18 +165,13 @@ export function detectSchools(input: SchoolInput): SchoolKey[] {
       input.awardsPrestige >= r.awardsSeason.minAwardsPrestige &&
       input.oscarFilms >= r.awardsSeason.minOscarFilms,
     cinephileStandard:
-      input.filmCriticism !== null &&
       input.publicConsensus !== null &&
-      input.filmCriticism >= r.cinephileStandard.minFilmCriticism &&
       input.publicConsensus >= r.cinephileStandard.minPublicConsensus &&
-      input.historicalDepth >= r.cinephileStandard.minHistoricalDepth &&
-      input.identity <= r.cinephileStandard.maxIdentity,
+      input.meanLegacy >= r.cinephileStandard.minMeanLegacy,
     artHouse:
-      input.filmCriticism !== null &&
-      input.publicConsensus !== null &&
-      input.filmCriticism >= r.artHouse.minFilmCriticism &&
-      input.publicConsensus <= r.artHouse.maxPublicConsensus &&
-      input.filmCriticism - input.publicConsensus >= r.artHouse.minGap,
+      meanHeat !== null &&
+      input.meanLegacy >= r.artHouse.minMeanLegacy &&
+      meanHeat <= r.artHouse.maxMeanHeat,
     cinephile:
       input.filmCriticism !== null &&
       input.publicConsensus !== null &&
@@ -164,7 +183,8 @@ export function detectSchools(input: SchoolInput): SchoolKey[] {
       input.publicConsensus !== null &&
       input.publicConsensus >= r.crowdPleaser.minPublicConsensus &&
       input.filmCriticism <= r.crowdPleaser.maxFilmCriticism &&
-      input.mainstreamMix <= r.crowdPleaser.maxMainstreamMix,
+      input.mainstreamMix <= r.crowdPleaser.maxMainstreamMix &&
+      input.maxLegacy <= r.crowdPleaser.maxLegacyScore,
     comfortViewer:
       input.comfortFilms >= SCHOOL_RULES.rules.comfortViewer.minComfortFilms &&
       input.publicConsensus !== null &&

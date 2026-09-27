@@ -752,6 +752,8 @@ export function scoreBuild(
     directors: distinctCount(traits.map((t) => t.director)),
     yearSpan:
       years.length > 1 ? Math.max(...years) - Math.min(...years) : 0,
+    yearMin: years.length > 0 ? Math.min(...years) : null,
+    yearMax: years.length > 0 ? Math.max(...years) : null,
     languageList: [
       ...new Set(traits.map((t) => t.language).filter((v): v is string => !!v)),
     ],
@@ -807,6 +809,18 @@ export function scoreBuild(
       imdb: s.metrics["footprint.imdbVotes"] ?? null,
       tmdb: s.metrics["footprint.tmdbVotes"] ?? null,
     })),
+    maxLegacy: Math.max(
+      0,
+      ...filmScores.map(
+        (s) => s.dimensions.find((d) => d.key === "legacy")?.score ?? 0
+      )
+    ),
+    meanLegacy:
+      mean(
+        filmScores.map(
+          (s) => s.dimensions.find((d) => d.key === "legacy")?.score ?? 0
+        )
+      ) ?? 0,
   });
 
   const tier: Tier = tierFrom(total, BUILD_TIER_THRESHOLDS);

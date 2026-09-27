@@ -201,6 +201,8 @@ export interface BuildDiagnostics {
   genres: number;
   directors: number;
   yearSpan: number;
+  yearMin: number | null;
+  yearMax: number | null;
   languageList: string[];
   regionList: string[];
   genreList: string[];
