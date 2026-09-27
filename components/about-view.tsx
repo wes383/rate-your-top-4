@@ -51,8 +51,12 @@ export function AboutView() {
               <li key={school.name} className={BODY_TEXT}>
                 <strong className="font-semibold text-foreground">
                   {school.name}
-                </strong>{" "}
-                {school.lines.join(" ")}
+                </strong>
+                {school.lines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
               </li>
             ))}
           </ol>

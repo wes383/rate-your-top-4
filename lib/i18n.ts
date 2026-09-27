@@ -263,6 +263,13 @@ const zh = {
           ],
         },
         {
+          name: "全同系列派",
+          lines: [
+            "特征：四部全来自同一个电影系列，一套连着刷完。",
+            "特点：系统性与专注度拉满，但铺开为零。",
+          ],
+        },
+        {
           name: "导演专精派",
           lines: [
             "特征：Top 4 中出现同一导演的多部作品，甚至全部围绕一个导演。",
@@ -279,50 +286,10 @@ const zh = {
           lines: ["特征：长镜头、低叙事密度、作者电影、形式实验、节奏缓慢。"],
         },
         {
-          name: "爆米花派",
+          name: "颁奖季派",
           lines: [
-            "特征：商业大片、娱乐性、类型片、明星电影、强叙事。",
-            "优势：通常非常真诚，不太在乎影迷圈的「标准答案」。",
-            "弱点：容易被影迷认为电影史纵深不足。",
-          ],
-        },
-        {
-          name: "电影痞子派",
-          lines: ["特征：节奏、暴力、男性导演、犯罪、黑色电影、酷感美学明显。"],
-        },
-        {
-          name: "怀旧派",
-          lines: [
-            "特征：Top 4 与成长经历、童年、青春或某个时代强相关。",
-            "核心特点：个人情感明显大于影史地位。",
-          ],
-        },
-        {
-          name: "舒适电影派",
-          lines: [
-            "特征：反复观看、熟悉、温暖、有陪伴感。",
-            "典型方向：喜剧、家庭电影、青春片、爱情片、动画等。",
-          ],
-        },
-        {
-          name: "反主流派",
-          lines: [
-            "特征：有意识地避开最常见的影史答案。",
-            "特点：Top 4 很少出现大众熟悉的经典。",
-          ],
-        },
-        {
-          name: "邪典派",
-          lines: [
-            "特征：Cult 电影、B 级片、午夜电影、怪电影、极端类型片。",
-            "核心逻辑：电影越怪越有意思。",
-          ],
-        },
-        {
-          name: "反讽派",
-          lines: [
-            "特征：故意把看起来不该出现在 Top 4 的电影放进去。",
-            "特点：Top 4 本身像一个笑话。",
+            "特征：至少两部奥斯卡获奖片，奖项分量整体很重。",
+            "特点：四部都带着颁奖季的镁光灯。",
           ],
         },
         {
@@ -357,9 +324,24 @@ const zh = {
           ],
         },
         {
-          name: "形式主义派",
+          name: "舒适电影派",
           lines: [
-            "特征：摄影、剪辑、声音、构图、长镜头等形式元素明显重于传统叙事。",
+            "特征：反复观看、熟悉、温暖、有陪伴感。",
+            "典型方向：喜剧、家庭电影、青春片、爱情片、动画等。",
+          ],
+        },
+        {
+          name: "冷门派",
+          lines: [
+            "特征：四部片的评分人数都非常低，几乎查无此片。",
+            "特点：只出现在私藏片单里。",
+          ],
+        },
+        {
+          name: "冷热混搭派",
+          lines: [
+            "特征：超级热门与彻底冷门同框，可见度反差极大。",
+            "特点：一半留给聚会，一半留给自己。",
           ],
         },
         {
@@ -707,6 +689,13 @@ const en: Dict = {
           ],
         },
         {
+          name: "The Franchise Loyalist",
+          lines: [
+            "Traits: all four films from the same series, binged as one complete set.",
+            "Trait: systematic and focused, with zero spread.",
+          ],
+        },
+        {
           name: "The Auteur Specialist",
           lines: [
             "Traits: multiple films by one director in the Top 4, sometimes all four built around a single one.",
@@ -725,52 +714,10 @@ const en: Dict = {
           ],
         },
         {
-          name: "The Popcorn",
+          name: "The Awards Season",
           lines: [
-            "Traits: blockbusters, entertainment, genre films, star vehicles, strong narrative.",
-            "Strength: usually very sincere, indifferent to the cinephile “correct answers”.",
-            "Weakness: often read by cinephiles as lacking film-history depth.",
-          ],
-        },
-        {
-          name: "The Movie Punk",
-          lines: [
-            "Traits: rhythm, violence, male directors, crime, film noir, cool-kid aesthetics.",
-          ],
-        },
-        {
-          name: "The Nostalgist",
-          lines: [
-            "Traits: the Top 4 is strongly tied to growing up, childhood, adolescence, or one particular era.",
-            "Core trait: personal feeling clearly outweighs historical standing.",
-          ],
-        },
-        {
-          name: "The Comfort Viewer",
-          lines: [
-            "Traits: rewatched, familiar, warm, companionable.",
-            "Typical directions: comedy, family films, coming-of-age, romance, animation.",
-          ],
-        },
-        {
-          name: "The Contrarian",
-          lines: [
-            "Traits: deliberately steering away from the most common canon answers.",
-            "Trait: widely known classics rarely appear in the Top 4.",
-          ],
-        },
-        {
-          name: "The Cultist",
-          lines: [
-            "Traits: cult films, B-movies, midnight movies, oddities, extreme genre fare.",
-            "Core logic: the weirder the film, the more interesting.",
-          ],
-        },
-        {
-          name: "The Ironist",
-          lines: [
-            "Traits: deliberately putting films that seem to have no business in a Top 4.",
-            "Trait: the Top 4 itself reads like a joke.",
+            "Traits: at least two Oscar-winning films; the combined award weight is heavy.",
+            "Trait: all four arrive with awards-season spotlight.",
           ],
         },
         {
@@ -805,9 +752,24 @@ const en: Dict = {
           ],
         },
         {
-          name: "The Formalist",
+          name: "The Comfort Viewer",
           lines: [
-            "Traits: cinematography, editing, sound, composition and long takes clearly outweigh traditional narrative.",
+            "Traits: rewatched, familiar, warm, companionable.",
+            "Typical directions: comedy, family films, coming-of-age, romance, animation.",
+          ],
+        },
+        {
+          name: "The Deep Cut",
+          lines: [
+            "Traits: all four films have very low vote counts — barely anywhere to be found.",
+            "Trait: exists only in private watchlists.",
+          ],
+        },
+        {
+          name: "The Hot-and-Cold Mixer",
+          lines: [
+            "Traits: super-hits and total obscurities side by side; the visibility gap is huge.",
+            "Trait: half for the party, half for yourself.",
           ],
         },
         {
