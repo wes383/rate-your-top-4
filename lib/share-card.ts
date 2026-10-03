@@ -7,7 +7,7 @@ import {
 } from "@/lib/image-proxy";
 import { DIM_STROKE } from "@/lib/tones";
 import type { Lang } from "@/lib/i18n";
-import type { BuildResult, NormalizedFilm, Tier } from "@/lib/types";
+import type { BuildResult, NormalizedFilm, SchoolKey, Tier } from "@/lib/types";
 import { formatScore } from "@/lib/utils";
 
 /**
@@ -205,7 +205,7 @@ function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob> {
 
 /* ── Card sections ────────────────────────────────────────────── */
 
-function paintHeader(brush: Brush, schools: BuildResult["build"]["schools"]) {
+function paintHeader(brush: Brush, primarySchool: SchoolKey | null) {
   const { ctx, theme } = brush;
 
   applyFont(brush, 700, 40, "display");
@@ -214,14 +214,11 @@ function paintHeader(brush: Brush, schools: BuildResult["build"]["schools"]) {
   ctx.textBaseline = "alphabetic";
   ctx.fillText(brush.t("share.heading"), PAD, 126);
 
-  // Detected schools, top-right where the date used to sit. First two only,
-  // always shown in full — the type size shrinks until the line fits between
-  // the heading and the right edge.
-  if (schools.length > 0) {
-    const names = schools
-      .slice(0, 2)
-      .map((school) => brush.t(`school.${school}`))
-      .join(" · ");
+  // The primary school sits top-right where the date used to be, always shown
+  // in full — the type size shrinks until the line fits between the heading
+  // and the right edge.
+  if (primarySchool) {
+    const names = brush.t(`school.${primarySchool}`);
     const headingWidth = ctx.measureText(brush.t("share.heading")).width;
     const available = RIGHT - (PAD + headingWidth + 32);
     let size = 26;
@@ -476,7 +473,7 @@ export async function renderShareCard(options: ShareCardOptions): Promise<Blob> 
   );
 
   paintBackground(ctx, brush.theme);
-  paintHeader(brush, build.schools);
+  paintHeader(brush, build.schools[0] ?? null);
   paintScore(brush, build.total, build.tier, build.level, build.levelRaw);
   paintPosters(brush, movies, posters, films, lang);
   paintDimensions(brush, build.dimensions);

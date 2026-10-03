@@ -220,7 +220,8 @@ export interface BuildResult {
     dimensions: BuildDimension[];
     adjustments: RuleAdjustment[];
     attributes: Record<string, number | null>;
-    /** Matching archetypes, most specific first; empty when none applies. */
+    /** Matching archetypes, most specific first. The report surfaces
+     *  `schools[0]` only; empty when none applies. */
     schools: SchoolKey[];
     confidence: number;
     confidenceLevel: "high" | "medium" | "low" | "invalid";

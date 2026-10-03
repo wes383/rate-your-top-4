@@ -49,6 +49,9 @@ export function BuildReport({
     (acc, adjustment) => acc + adjustment.delta,
     0
   );
+  // The detector ranks matches most-specific first; only the primary one is
+  // surfaced so the summary card stays a single verdict.
+  const primarySchool = build.schools[0] ?? null;
 
   return (
     <section id="report" className="scroll-mt-20">
@@ -79,18 +82,11 @@ export function BuildReport({
                 {totalAdjustment > 0 ? "+" : ""}
                 {totalAdjustment}
               </Badge>
-              {build.schools.map((school, index) => (
-                <Badge
-                  key={school}
-                  variant={index === 0 ? "default" : "secondary"}
-                  size="sm"
-                  title={
-                    index === 0 ? t("report.schoolsPrimary") : undefined
-                  }
-                >
-                  {t(`school.${school}`)}
+              {primarySchool && (
+                <Badge variant="default" size="sm">
+                  {t(`school.${primarySchool}`)}
                 </Badge>
-              ))}
+              )}
             </div>
             <ScoreRing
               value={build.total}

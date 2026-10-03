@@ -61,7 +61,6 @@ const zh = {
       totalBeforeRules: "规则前总分",
       formulaNote: "所有维度 0-100 分，乘以权重后求和，再叠加规则加减分。",
       schools: "Top 4 派别",
-      schoolsPrimary: "最具体的一个派别",
     },
     school: {
       franchise: "全同系列派",
@@ -486,7 +485,6 @@ const en: Dict = {
       formulaNote:
         "Every dimension is scored 0-100, multiplied by its weight, then rule adjustments are applied.",
       schools: "Top 4 school",
-      schoolsPrimary: "The most specific match",
     },
     school: {
       franchise: "The Franchise Lock",

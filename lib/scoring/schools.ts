@@ -13,15 +13,21 @@ import type { SchoolKey } from "@/lib/types";
  * the person rather than the build.
  *
  * `SCHOOL_ORDER` is most-specific first. `detectSchools` returns every match
- * in that order; the first entry is the primary school shown in the report.
+ * in that order; the report shows the first entry only, so the verdict stays a
+ * single answer instead of a pile of labels.
+ *
+ * The two era schools sit at the very bottom on purpose. "Three films from the
+ * 1950s" is a fact about *when* a build points at, not about what taste it
+ * expresses, and any four-film canon build satisfies it almost by accident —
+ * ranking it high made a Sight & Sound top-10 lineup read as "The Old School"
+ * instead of "The Cinephile Correct Answers". Era only surfaces when nothing
+ * more specific applies.
  */
 
 export const SCHOOL_ORDER: SchoolKey[] = [
   "franchise",
   "auteurSpecialist",
   "genreSpecialist",
-  "oldSchool",
-  "youngCinephile",
   "internationalHunter",
   "chaosDraw",
   "ultimateMixer",
@@ -33,6 +39,10 @@ export const SCHOOL_ORDER: SchoolKey[] = [
   "crowdPleaser",
   "comfortViewer",
   "niche",
+  // Era schools last: a time range is the weakest thing a build can be named
+  // after (see the note above).
+  "oldSchool",
+  "youngCinephile",
 ];
 
 export const SCHOOL_RULES = {
