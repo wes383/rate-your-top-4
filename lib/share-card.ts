@@ -43,7 +43,8 @@ export interface ShareCardOptions {
   lang: Lang;
   /** Translator from the active language provider. */
   t: (key: string, vars?: Record<string, string | number>) => string;
-  /** Absolute link printed in the card footer — the home page, not a deep link. */
+  /** Absolute link printed in the card footer — the home page, not a deep link.
+   *  The scheme is stripped when painting, so the footer reads `example.com`. */
   url: string;
 }
 
@@ -434,7 +435,13 @@ function paintFooter(brush: Brush, url: string) {
   ctx.textAlign = "left";
   ctx.textBaseline = "alphabetic";
   ctx.fillStyle = theme["--foreground-faint"];
-  ctx.fillText(ellipsize(ctx, url, CONTENT_WIDTH), PAD, 1376);
+  // Printed as a bare host: `example.com` reads as an address, while the
+  // `https://` scheme and the trailing slash only add noise at this size.
+  ctx.fillText(
+    ellipsize(ctx, url.replace(/^https?:\/\//, "").replace(/\/$/, ""), CONTENT_WIDTH),
+    PAD,
+    1376
+  );
 }
 
 function paintBackground(ctx: CanvasRenderingContext2D, theme: Theme) {
