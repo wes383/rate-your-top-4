@@ -558,7 +558,7 @@ const zh: MethodDoc = {
         {
           kind: "p",
           text:
-            "在五个维度之外，引擎会用同一组已经算出的信号做一次轻量的派别判定：命中的派别按「具体优先」排序，只展示最符合的那一个。年代类派别（老派电影派、年轻影迷派）排在最后——它们只说明这些电影来自哪个年代，一组经典片单几乎必然命中，所以只有没有更具体的标签时才会显示。派别只是给信号组合起名字，不参与总分，也不影响档位与 Level。",
+            "在五个维度之外，引擎会用同一组已经算出的信号做一次轻量的派别判定：命中的派别按「具体优先」排序，只展示最符合的那一个。排序大致是「结构 → 形态 → 构成 → 年代」：同系列、同导演、同类型这类结构性事实最优先，艺术电影派这类形态标签次之，跨语种、跨年代这些通常只是副产品，因此排在后面——年代类派别（老派电影派、年轻影迷派）排在最末，只有没有更具体的标签时才会显示。派别只是给信号组合起名字，不参与总分，也不影响档位与 Level。",
         },
         {
           kind: "table",
@@ -567,13 +567,13 @@ const zh: MethodDoc = {
             ["全同系列派", "四部全部属于同一个电影系列"],
             ["导演专精派", "三部及以上出自同一位导演"],
             ["类型专精派", "类型集中度不低于 55"],
+            ["艺术电影派", "组内平均榜单地位（TSPDT/《视与听》/《电影手册》）不低于 40，且平均热度（IMDb 与 TMDB 票数分之和）不超过 58"],
             ["国际电影猎人派", "非英语片不少于三部，且语种不少于两种"],
             ["混沌抽卡派", "多样性不低于 65，组合张力不超过 48，且导演签名为随机档"],
             ["终极混合派", "多样性不低于 70，组合张力不低于 55，主流混合不低于 60"],
             ["冷热混搭派", "主流混合不低于 60，且认可 spread 不低于 45"],
             ["颁奖季派", "奖项声望不低于 70，且不少于两部奥斯卡获奖片"],
             ["影迷标准答案派", "公众共识不低于 60，且组内平均榜单地位（TSPDT/《视与听》/《电影手册》）不低于 60"],
-            ["艺术电影派", "组内平均榜单地位（TSPDT/《视与听》/《电影手册》）不低于 40，且平均热度（IMDb 与 TMDB 票数分之和）不超过 58"],
             ["电影发烧友派", "影评力不低于 60，两部同导演，且公众共识不超过 65"],
             ["大众真爱派", "公众共识不低于 70，影评力不超过 55，主流混合不超过 35，且没有任何一部片进入 TSPDT、《视与听》或《电影手册》榜单"],
             ["舒适电影派", "三部及以上属于舒适类型（喜剧、家庭、爱情、动画、音乐），且公众共识不低于 50"],
@@ -1281,7 +1281,7 @@ const en: MethodDoc = {
         {
           kind: "p",
           text:
-            "Beyond the five dimensions, the engine runs a lightweight school detection over the same signals it has already computed: matches are ranked most-specific first, and only the top one is shown. The era schools (The Old School, The Young Cinephile) rank last — they only say which decades a lineup comes from, which almost any classic set satisfies, so they surface only when nothing more specific applies. A school is only a name for a combination of signals — it never feeds into the total, the tier, or the Level.",
+            "Beyond the five dimensions, the engine runs a lightweight school detection over the same signals it has already computed: matches are ranked most-specific first, and only the top one is shown. The ranking runs roughly from structure to style to composition to era — structural facts (same collection, same director, one genre) come first, style labels such as The Art-House next, while crossing languages or decades is usually a side effect and therefore ranks lower. The era schools (The Old School, The Young Cinephile) sit last and only surface when nothing more specific applies. A school is only a name for a combination of signals — it never feeds into the total, the tier, or the Level.",
         },
         {
           kind: "table",
@@ -1290,13 +1290,13 @@ const en: MethodDoc = {
             ["The Franchise Lock", "All four films belong to the same collection"],
             ["The Auteur Specialist", "Three or more films by the same director"],
             ["The Genre Specialist", "Genre concentration of 55 or above"],
+            ["The Art-House", "Mean critics'-list standing (TSPDT / Sight & Sound / Cahiers) ≥ 40, and mean heat (IMDb + TMDB vote points) ≤ 58"],
             ["The International Hunter", "At least three non-English films across at least two languages"],
             ["The Chaos Draw", "Variety ≥ 65, coherence ≤ 48, and a random-tier director signature"],
             ["The Ultimate Mixer", "Variety ≥ 70, coherence ≥ 55, and mainstream mix ≥ 60"],
             ["The Hot-Cold Mixer", "Mainstream mix ≥ 60 and recognition spread ≥ 45"],
             ["The Awards Season", "Awards prestige ≥ 70 and at least two Oscar-winning films"],
             ["The Cinephile Correct Answers", "Public consensus ≥ 60 and mean critics'-list standing (TSPDT / Sight & Sound / Cahiers) ≥ 60"],
-            ["The Art-House", "Mean critics'-list standing (TSPDT / Sight & Sound / Cahiers) ≥ 40, and mean heat (IMDb + TMDB vote points) ≤ 58"],
             ["The Cinephile", "Film criticism ≥ 60, two films by one director, and public consensus ≤ 65"],
             ["The Crowd Pleaser", "Public consensus ≥ 70, film criticism ≤ 55, mainstream mix ≤ 35, and no film on the TSPDT, Sight & Sound, or Cahiers lists"],
             ["The Comfort Viewer", "Three or more comfort genres (comedy, family, romance, animation, music) and public consensus ≥ 50"],

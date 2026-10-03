@@ -16,11 +16,15 @@ import type { SchoolKey } from "@/lib/types";
  * in that order; the report shows the first entry only, so the verdict stays a
  * single answer instead of a pile of labels.
  *
- * The two era schools sit at the very bottom on purpose. "Three films from the
- * 1950s" is a fact about *when* a build points at, not about what taste it
- * expresses, and any four-film canon build satisfies it almost by accident —
+ * Ordering follows "structure first, style second, composition and era last":
+ * a structural fact (same collection, same director, one genre) names the build
+ * most precisely; the style schools describe which kind of cinema it is; and
+ * the purely compositional signals — crossing borders, spanning decades — are
+ * consequences that any art-house lineup satisfies by accident. The two era
+ * schools sit at the very bottom on purpose: "three films from the 1950s" is a
+ * fact about *when* a build points at, not about what taste it expresses, and
  * ranking it high made a Sight & Sound top-10 lineup read as "The Old School"
- * instead of "The Cinephile Correct Answers". Era only surfaces when nothing
+ * instead of "The Cinephile Correct Answers". Both only surface when nothing
  * more specific applies.
  */
 
@@ -28,13 +32,18 @@ export const SCHOOL_ORDER: SchoolKey[] = [
   "franchise",
   "auteurSpecialist",
   "genreSpecialist",
+  // Art-house ranks above the composition schools: it is the only style school
+  // whose conjunction reads critics'-list standing *and* low popularity, so it
+  // says more about the build than "these films cross borders" or "these films
+  // are old". Without this, a Cléo / Persona / Potemkin / Joan of Arc lineup
+  // came back as The International Hunter.
+  "artHouse",
   "internationalHunter",
   "chaosDraw",
   "ultimateMixer",
   "hotColdMixer",
   "awardsSeason",
   "cinephileStandard",
-  "artHouse",
   "cinephile",
   "crowdPleaser",
   "comfortViewer",
